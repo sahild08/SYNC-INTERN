@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SignUp & LogIn</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.1/css/all.min.css" 
+    integrity="sha512-MV7K8+y+gLIBoVD59lQIYicR65iaqukzvf/nwasF0nqhPay5w/9lJmVM2hMDcnK1OnMGCdVK+iQrJ7lzPJQd1w==" 
+    crossorigin="anonymous" referrerpolicy="no-referrer" />
+</head>
+<body>
+    <div class="container">
+        <div class="form signup" name="form">
+            <h2>SignUp</h2>
+
+            <div class="inputbox">
+                <i class="fa-solid fa-user icon" ></i>
+                <input type="text" required placeholder="Username" id="username">
+            </div>
+
+            <div class="inputbox">
+                <i class="fa-solid fa-envelope icon" ></i>
+                <input type="email" required placeholder="Email id" id="email">
+            </div>
+
+            <div class="inputbox">
+                <i class="fa-solid fa-lock icon"></i>
+                <i class="fa-solid fa-eye togglepassword hide" id="openeye" onclick="visible()"></i>
+                <i class="fa-sharp fa-solid fa-eye-slash togglepassword" id="closeeye" onclick="visible()"></i>
+                <input type="password" required placeholder="Password" id="password" class="pass">
+            </div>
+
+            <div class="inputbox">
+                <i class="fa-solid fa-lock icon"></i>
+                <i class="fa-solid fa-eye togglepassword hide" id="openeye" onclick="visible()"></i>
+                <i class="fa-sharp fa-solid fa-eye-slash togglepassword" id="closeeye" onclick="visible()"></i>
+                <input type="password" required placeholder="Confirm Password" id="cpassword" class="pass">
+            </div>
+            
+            <div class="inputbox">
+                <input type="submit" value="Create a New Account" id="register" class="login2">
+                <br/><br/>
+            </div>
+            <p>Already have an Account? <a href="#" class="login">LogIn</a></p>
+        </div>
+
+        <div class="form signin" name="form1">
+            <h2>LogIn</h2>
+
+            <div class="inputbox">
+                <i class="fa-solid fa-envelope icon"></i>
+                <input type="email" required placeholder="Email" id="email1">
+            </div>
+
+            <div class="inputbox">
+                <i class="fa-solid fa-lock icon"></i>
+                <i class="fa-solid fa-eye togglepassword hide" id="openeye" onclick="visible()"></i>
+                <i class="fa-sharp fa-solid fa-eye-slash togglepassword" id="closeeye" onclick="visible()"></i>
+                <input type="password" required placeholder="Password" id="password1" class="pass">
+            </div>
+
+            <div class="inputbox">
+                <input type="submit" value="LogIn" id="login1" >
+                <br/><br/>
+            </div>
+            <p>Not Registered? <a href="#" class="create">Create a New Account</a></p>
+        </div>  
+    </div>
+    
+    <script type="module">
+       
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/9.16.0/firebase-app.js";
+        import { getDatabase,set,ref,update} from "https://www.gstatic.com/firebasejs/9.16.0/firebase-database.js";
+        import { getAuth, createUserWithEmailAndPassword ,signInWithEmailAndPassword} from "https://www.gstatic.com/firebasejs/9.16.0/firebase-auth.js";
+        
+        const firebaseConfig = {
+          apiKey: "AIzaSyC-0dSdEy6kueEn-7g0xuMNrS5MswK2m0M",
+          authDomain: "task1-authentication-a6d74.firebaseapp.com",
+          databaseURL: "https://task1-authentication-a6d74-default-rtdb.firebaseio.com",
+          projectId: "task1-authentication-a6d74",
+          storageBucket: "task1-authentication-a6d74.appspot.com",
+          messagingSenderId: "828346169179",
+          appId: "1:828346169179:web:d0a26c3765e5c693bd4c7e"
+        };
+        const app = initializeApp(firebaseConfig);
+        const database=getDatabase(app);
+        const auth = getAuth();
+
+        register.addEventListener('click',(e)=>{
+
+        var username=document.getElementById('username').value;
+        var email=document.getElementById('email').value;
+        var password=document.getElementById('password').value;
+        var cpassword=document.getElementById('cpassword').value;
+
+        var lowercase=/[a-z]/g;
+        var uppercase=/[A-Z]/g;
+        var numbers=/[0-9]/g;
+
+        if(username.length==0)
+        {
+            alert("Please enter username")
+        }
+        else if(email.length==0)
+        {
+            alert("Please enter email id")
+        }
+        else if(password.length==0)
+        {
+            alert("Please enter password")
+        }
+        else if(!password.match(numbers))
+        {
+            alert("please add 1 number")
+        }
+        else if(!password.match(lowercase))
+        {
+            alert("please add 1 lowercase letter")
+        }
+        else if(!password.match(uppercase))
+        {
+            alert("please add 1 uppercase letter")
+        }   
+        else if(password===cpassword)
+        {
+            let login2=document.querySelector('.login2');
+            let container=document.querySelector('.container');
+            
+            login2.onclick = function(){
+                container.classList.add('signinForm');
+                alert('user created');
+            
+            createUserWithEmailAndPassword(auth, email, password)
+            .then((userCredential) => { 
+                const user = userCredential.user;
+                set(ref(database,'users/'+user.uid),{
+                username:username,
+                email:email
+                })
+            })
+            .catch((error) => {
+                const errorCode = error.code;
+                const errorMessage = error.message;
+                alert(errorMessage);
+            });
+        }
+        }
+        else
+        {
+            alert('password and confirm password does not match')
+        }
+        });
+        login1.addEventListener('click',(e)=>{
+            var email1=document.getElementById('email1').value;
+            var password1=document.getElementById('password1').value;
+
+            signInWithEmailAndPassword(auth, email1, password1)
+            .then((userCredential) => {
+                const user = userCredential.user;
+                const dt=new Date();
+                update(ref(database,'users/'+user.uid),{
+                last_login:dt,
+            })
+            alert('LogIn Successfully');
+            window.location.href="welcome.html";
+            })
+            .catch((error) => {
+                const errorCode = error.code;
+                const errorMessage = error.message;
+                alert(errorMessage);
+            });
+        });
+    </script>
+    <script>  
+        let login=document.querySelector('.login');
+        let create=document.querySelector('.create');
+        let container=document.querySelector('.container');
+
+        login.onclick = function(){
+        container.classList.add('signinForm');
+        }
+        create.onclick = function(){
+        container.classList.remove('signinForm');
+        }
+        function visible(){
+        const togglepassword = document.querySelector('.togglepassword');
+        const openeye=document.querySelector('#openeye');
+        const closeeye=document.querySelector('#closeeye');
+        var password=document.querySelector('.pass');
+    
+        if(password.type==='password')
+        {
+            password.type="text";
+            openeye.style.display="block";
+            closeeye.style.display="none";
+        }
+        else
+        {
+            password.type="password";
+            openeye.style.display="none";
+            closeeye.style.display="block";
+        }
+    }
+    </script>
+     <footer class="footer"> Copyright © 2023 Desinged by Sahil&trade;. All Right Reserved </footer>
+</body>
+</html>

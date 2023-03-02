@@ -1,0 +1,122 @@
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+}
+body{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    background-image: url(back.jpg);
+    background-repeat: no-repeat;
+    background-size: cover;
+}
+.container{
+    padding: 40px;
+    border: 8px solid rgb(0, 0, 0);
+    background: rgb(0, 0, 0);
+    border-radius: 20px;
+
+}
+.container .form{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    gap: 25px;
+}
+.container .form.signin,
+.container.signinForm .form.signup{
+    display: none;
+}
+.container.signinForm .form.signin{
+    display: flex;
+}
+.container .form h2 {
+    color: #ff2525;
+    font-weight: 500;
+    letter-spacing: 0.1em;
+}
+.container h1{
+    color: #ffffff;
+    font-size: 50px;
+    font-weight: 500;
+    letter-spacing: 0.1em;
+}
+.container .form .inputbox{
+    position: relative;
+    width: 300px;
+}
+.container .form .inputbox input{
+    padding: 12px 10px 12px 48px;
+    border: none;
+    width: 100%;
+    background: #223243;
+    border: 1px solid rgba(0, 0, 0, 0.1);
+    color: #fff;
+    font-weight: 300;
+    border-radius: 25px;
+    font-size: 1em;
+    box-shadow: -5px -5px 15px rgba(255, 255, 255, 0.1),
+    5px 5px 15px rgba(0, 0, 0, 0.35);
+    transition: 0.5s;
+    /*outline: none;*/
+}
+.container .form .inputbox input:valid,
+.container .form .inputbox input:focus{
+    border: 1px solid #FEE715FF;
+}
+.container .form .inputbox i.icon{
+    position:absolute;
+    top: 15px;
+    left: 16px;
+    width: 25px;
+    padding: 2px 0;
+    padding-right: 8px;
+    color: #FEE715FF;
+    border-right: 1px solid #FEE715FF;
+}
+.togglepassword{
+    position: absolute;
+    top: 15px;
+    right: 20px;
+    width: 25px;
+    color: #FEE715FF; 
+    cursor: pointer;
+}
+.container .form .inputbox input[type="submit"]{
+    background: #FEE715FF;
+    color: #223243;
+    padding: 10px 0;
+    font-weight: 500;
+    cursor: pointer;
+    box-shadow: -5px -5px 15px rgba(255, 255, 255, 0.1),
+    5px 5px 15px rgba(0, 0, 0, 0.35),
+    inset -5px -5px 15px rgba(255, 255, 255, 0.1),
+    inset 5px 5px 15px rgba(0, 0, 0, 0.35);
+}
+ 
+.container .form p{
+    color: rgba(255, 255, 255, 0.5);
+    font-size: 1em;
+    font-weight: 300;
+}
+.container .form p a{
+    font-weight: 500;
+    color: #fff;
+    text-decoration: none;
+}
+.container .form p a:hover{
+    color: #ff0000;
+}
+.footer {
+    margin-top: 600px;
+   position: absolute;
+    font-size: 5;
+    padding: 2px;
+    text-align: center;
+    color: #ffffff;
+    background: #191818;
+}
